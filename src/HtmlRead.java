@@ -32,7 +32,16 @@ public class HtmlRead {
 
                     String newSubstring = line.substring(startIndex);
                     //finds end quotation
-                    int endIndex = newSubstring.indexOf("\"");
+                    // Finds the ending double or single quotation mark
+                    int doubleQuote = newSubstring.indexOf("\"");
+                    int singleQuote = newSubstring.indexOf("'");
+
+                    int endIndex = doubleQuote;
+
+                    // Uses the single quotation mark if it comes first
+                    if (endIndex == -1 || (singleQuote != -1 && singleQuote < endIndex)) {
+                        endIndex = singleQuote;
+                    }
                     if (endIndex != -1) {
                         //extracts just the link
                         String newSubstring2 = newSubstring.substring(0, endIndex);
