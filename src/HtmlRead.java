@@ -14,8 +14,9 @@ public class HtmlRead {
 
         try {
             System.out.println();
+
             System.out.print("hello \n");
-            URL url = new URL("https://www.espn.com/");
+            URL url = new URL("https://wwwespn.com/");
 
             URLConnection urlc = url.openConnection();
             urlc.setRequestProperty("User-Agent", "Mozilla 5.0 (Windows; U; " + "Windows NT 5.1; en-US; rv:1.8.0.11) ");
@@ -42,6 +43,8 @@ public class HtmlRead {
                     if (endIndex == -1 || (singleQuote != -1 && singleQuote < endIndex)) {
                         endIndex = singleQuote;
                     }
+
+
                     if (endIndex != -1) {
                         //extracts just the link
                         String newSubstring2 = newSubstring.substring(0, endIndex);
