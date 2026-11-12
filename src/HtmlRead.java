@@ -16,7 +16,7 @@ public class HtmlRead {
             System.out.println();
 
             System.out.print("hello \n");
-            URL url = new URL("https://wwwespn.com/");
+            URL url = new URL("https://www.espn.com/");
 
             URLConnection urlc = url.openConnection();
             urlc.setRequestProperty("User-Agent", "Mozilla 5.0 (Windows; U; " + "Windows NT 5.1; en-US; rv:1.8.0.11) ");
@@ -25,44 +25,47 @@ public class HtmlRead {
                     new InputStreamReader(urlc.getInputStream())
             );
             String line;
-            while ( (line = reader.readLine()) != null ) {
+            while ((line = reader.readLine()) != null) {
                 // Finds the first link on the line
-                int startIndex = line.indexOf("http");
+                int startIndex = line.indexOf("href=");
                 // Keeps searching until there are no more links
                 while (startIndex != -1) {
 
                     String newSubstring = line.substring(startIndex);
-                    //finds end quotation
                     // Finds the ending double or single quotation mark
-                    int doubleQuote = newSubstring.indexOf("\"");
-                    int singleQuote = newSubstring.indexOf("'");
+                    int equalsIndex = newSubstring.indexOf("=");
+                    if (equalsIndex != -1) {
+                        int doubleQuote = newSubstring.indexOf("\"", equalsIndex + 1);
+                        int singleQuote = newSubstring.indexOf("'", equalsIndex + 1);
 
-                    int endIndex = doubleQuote;
+                        int startQuote = doubleQuote;
 
-                    // Uses the single quotation mark if it comes first
-                    if (endIndex == -1 || (singleQuote != -1 && singleQuote < endIndex)) {
-                        endIndex = singleQuote;
+                        if (singleQuote != -1 && (startQuote == -1 || singleQuote < startQuote)) {
+                            startQuote = singleQuote;
+                        }
+
+                        if (startQuote != -1) {
+                            char quote = newSubstring.charAt(startQuote);
+                            int endIndex = newSubstring.indexOf(quote, startQuote + 1);
+
+                            if (endIndex != -1) {
+                                String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
+                                System.out.println(newSubstring2);
+                            }
+                        }
                     }
-
-
-                    if (endIndex != -1) {
-                        //extracts just the link
-                        String newSubstring2 = newSubstring.substring(0, endIndex);
-
-                        System.out.println(newSubstring2);
-                    }
-                    startIndex = line.indexOf("http", startIndex + 4);
-
+                    startIndex = line.indexOf("href=", startIndex + 5);
 
 
 
                 }
+                }
+                reader.close();
+            } catch(Exception ex){
+                System.out.println(ex);
             }
-            reader.close();
-        } catch(Exception ex) {
-            System.out.println(ex);
+
         }
 
     }
 
-}
