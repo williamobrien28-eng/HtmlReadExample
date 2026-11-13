@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Scanner;
 
 public class HtmlRead {
 
@@ -13,10 +14,13 @@ public class HtmlRead {
     public HtmlRead() {
 
         try {
-            System.out.println();
+            //asks the user whta website to scan
+            Scanner input = new Scanner (System.in);
+            System.out.println("Enter Website To Scan: ");
+            String website = input.nextLine();
 
-            System.out.print("hello \n");
-            URL url = new URL("https://www.espn.com/");
+            //opens the website entered
+            URL  url = new URL(website);
 
             URLConnection urlc = url.openConnection();
             urlc.setRequestProperty("User-Agent", "Mozilla 5.0 (Windows; U; " + "Windows NT 5.1; en-US; rv:1.8.0.11) ");
@@ -50,20 +54,23 @@ public class HtmlRead {
 
                             if (endIndex != -1) {
                                 String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
-                                System.out.println(newSubstring2);
+
+                                // Only prints complete links that start with http or https
+                                if (newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) {
+                                    System.out.println(newSubstring2);
+                                }
                             }
                         }
                     }
                     startIndex = line.indexOf("href=", startIndex + 5);
 
 
-
                 }
-                }
+            }
                 reader.close();
             } catch(Exception ex){
-                System.out.println(ex);
-            }
+                System.out.println(ex);}
+
 
         }
 
