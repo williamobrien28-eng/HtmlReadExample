@@ -16,8 +16,13 @@ public class HtmlRead {
         try {
             //asks the user whta website to scan
             Scanner input = new Scanner (System.in);
-            System.out.println("Enter Website To Scan: ");
+            System.out.println("Enter Full Link of Website To Scan: ");
             String website = input.nextLine();
+
+            //asks user what string to fitler links by
+            System.out.println("Enter the Text You Want to Filter the Links by: ");
+            String filter = input.nextLine();
+
 
             //opens the website entered
             URL  url = new URL(website);
@@ -51,12 +56,11 @@ public class HtmlRead {
                         if (startQuote != -1) {
                             char quote = newSubstring.charAt(startQuote);
                             int endIndex = newSubstring.indexOf(quote, startQuote + 1);
-
                             if (endIndex != -1) {
                                 String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
 
-                                // Only prints complete links that start with http or https
-                                if (newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) {
+                                // Only prints complete links that start with http or https consulted java stoack overflow
+                                if ((newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) && newSubstring2.contains(filter)) {
                                     System.out.println(newSubstring2);
                                 }
                             }
