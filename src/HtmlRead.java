@@ -12,68 +12,76 @@ public class HtmlRead {
     }
 
     public HtmlRead() {
+        Scanner input = new Scanner(System.in);
 
-        try {
-            //asks the user whta website to scan
-            Scanner input = new Scanner (System.in);
-            System.out.println("Enter Full Link of Website To Scan: ");
-            String website = input.nextLine();
+        while (true)
+            try {
 
-            //asks user what string to fitler links by
-            System.out.println("Enter the Text You Want to Filter the Links by: ");
-            String filter = input.nextLine();
+                //asks the user whta website to scan
+                System.out.println("Enter Full Link of Website To Scan (Or Type Quit to Stop): ");
+                String website = input.nextLine();
+                //lets user stop    java stackoverflow consulted
+                if (website.equalsIgnoreCase("quit")) {
+                    break;
+                }
+
+                //asks user what string to fitler links by
+                System.out.println("Enter the Text You Want to Filter the Links by: ");
+                String filter = input.nextLine();
 
 
-            //opens the website entered
-            URL  url = new URL(website);
+                //opens the website entered
+                URL url = new URL(website);
 
-            URLConnection urlc = url.openConnection();
-            urlc.setRequestProperty("User-Agent", "Mozilla 5.0 (Windows; U; " + "Windows NT 5.1; en-US; rv:1.8.0.11) ");
+                URLConnection urlc = url.openConnection();
+                urlc.setRequestProperty("User-Agent", "Mozilla 5.0 (Windows; U; " + "Windows NT 5.1; en-US; rv:1.8.0.11) ");
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(urlc.getInputStream())
-            );
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Finds the first link on the line
-                int startIndex = line.indexOf("href=");
-                // Keeps searching until there are no more links
-                while (startIndex != -1) {
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(urlc.getInputStream())
+                );
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Finds the first link on the line
+                    int startIndex = line.indexOf("href=");
+                    // Keeps searching until there are no more links
+                    while (startIndex != -1) {
 
-                    String newSubstring = line.substring(startIndex);
-                    // Finds the ending double or single quotation mark
-                    int equalsIndex = newSubstring.indexOf("=");
-                    if (equalsIndex != -1) {
-                        int doubleQuote = newSubstring.indexOf("\"", equalsIndex + 1);
-                        int singleQuote = newSubstring.indexOf("'", equalsIndex + 1);
+                        String newSubstring = line.substring(startIndex);
+                        // Finds the ending double or single quotation mark
+                        int equalsIndex = newSubstring.indexOf("=");
+                        if (equalsIndex != -1) {
+                            int doubleQuote = newSubstring.indexOf("\"", equalsIndex + 1);
+                            int singleQuote = newSubstring.indexOf("'", equalsIndex + 1);
 
-                        int startQuote = doubleQuote;
+                            int startQuote = doubleQuote;
 
-                        if (singleQuote != -1 && (startQuote == -1 || singleQuote < startQuote)) {
-                            startQuote = singleQuote;
-                        }
+                            if (singleQuote != -1 && (startQuote == -1 || singleQuote < startQuote)) {
+                                startQuote = singleQuote;
+                            }
 
-                        if (startQuote != -1) {
-                            char quote = newSubstring.charAt(startQuote);
-                            int endIndex = newSubstring.indexOf(quote, startQuote + 1);
-                            if (endIndex != -1) {
-                                String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
+                            if (startQuote != -1) {
+                                char quote = newSubstring.charAt(startQuote);
+                                int endIndex = newSubstring.indexOf(quote, startQuote + 1);
+                                if (endIndex != -1) {
+                                    String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
 
-                                // Only prints complete links that start with http or https consulted java stoack overflow
-                                if ((newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) && newSubstring2.contains(filter)) {
-                                    System.out.println(newSubstring2);
+                                    // Only prints complete links that start with http or https consulted java stoack overflow
+                                    if ((newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) && newSubstring2.contains(filter)) {
+                                        System.out.println(newSubstring2);
+                                    }
                                 }
                             }
                         }
+                        startIndex = line.indexOf("href=", startIndex + 5);
+
+
                     }
-                    startIndex = line.indexOf("href=", startIndex + 5);
-
-
                 }
-            }
                 reader.close();
-            } catch(Exception ex){
-                System.out.println(ex);}
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+
 
 
         }
