@@ -40,6 +40,7 @@ public class HtmlRead {
                         new InputStreamReader(urlc.getInputStream())
                 );
                 String line;
+                //read through websites line by line to find links
                 while ((line = reader.readLine()) != null) {
                     // Finds the first link on the line
                     int startIndex = line.indexOf("href=");
@@ -47,22 +48,25 @@ public class HtmlRead {
                     while (startIndex != -1) {
 
                         String newSubstring = line.substring(startIndex);
-                        // Finds the ending double or single quotation mark
+                        // finds end of index
                         int equalsIndex = newSubstring.indexOf("=");
                         if (equalsIndex != -1) {
+                            //finds both single and double quotes
                             int doubleQuote = newSubstring.indexOf("\"", equalsIndex + 1);
                             int singleQuote = newSubstring.indexOf("'", equalsIndex + 1);
 
                             int startQuote = doubleQuote;
-
+                            //seee if single quote or double qutoes were used first
                             if (singleQuote != -1 && (startQuote == -1 || singleQuote < startQuote)) {
                                 startQuote = singleQuote;
                             }
 
                             if (startQuote != -1) {
+                                //find where the link ends
                                 char quote = newSubstring.charAt(startQuote);
                                 int endIndex = newSubstring.indexOf(quote, startQuote + 1);
                                 if (endIndex != -1) {
+                                    //get complete url
                                     String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
 
                                     // Only prints complete links that start with http or https consulted java stoack overflow   filter.tolowercase makes it so that no matter what htey type it is lower case
