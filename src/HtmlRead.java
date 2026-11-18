@@ -80,6 +80,8 @@ public class HtmlRead {
                 reader.close();
             } catch (Exception ex) {
                 System.out.println(ex);
+                //lets user know fi the url they entered is bad and tells them to pelase try again
+                System.out.println("oopsies poopy butt bad link pleaseee try again with a proper url" + " ");
             }
 
         }
