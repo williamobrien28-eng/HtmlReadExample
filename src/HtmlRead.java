@@ -13,7 +13,7 @@ public class HtmlRead {
 
     public HtmlRead() {
         Scanner input = new Scanner(System.in);
-
+        //repeats so that the user doesnt hvse to hit play button every time consulted java stackoverflow
         while (true)
             try {
 
@@ -65,8 +65,8 @@ public class HtmlRead {
                                 if (endIndex != -1) {
                                     String newSubstring2 = newSubstring.substring(startQuote + 1, endIndex);
 
-                                    // Only prints complete links that start with http or https consulted java stoack overflow
-                                    if ((newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) && newSubstring2.contains(filter)) {
+                                    // Only prints complete links that start with http or https consulted java stoack overflow   filter.tolowercase makes it so that no matter what htey type it is lower case
+                                    if ((newSubstring2.startsWith("https://") || newSubstring2.startsWith("http://")) && newSubstring2.contains(filter.toLowerCase())) {
                                         System.out.println(newSubstring2);
                                     }
                                 }
@@ -82,9 +82,6 @@ public class HtmlRead {
                 System.out.println(ex);
             }
 
-
-
         }
-
     }
 
